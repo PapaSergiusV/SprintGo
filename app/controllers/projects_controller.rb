@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :update, :destroy]
+  before_action :set_project, only: %i[show update destroy]
 
   def index
     @projects = Project.where(company_id: params[:company_id])
@@ -28,18 +28,14 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    if @project.destroy
-      render json: { status: :ok }
-    else
-      error_406
-    end
+    @project.destroy
   end
 
   private
 
   def project_params
-    params.require(:project).permit(:name, :about).merge(params.permit(:company_id))
-    # params.require(:project).permit(:name, :about)
+    params.require(:project).permit(:name, :about)
+          .merge(params.permit(:company_id))
   end
 
   def set_project
@@ -51,6 +47,6 @@ class ProjectsController < ApplicationController
   end
 
   def error_406
-    render json: { errors: @project.errors }, status: 406
+    render json: { errors: @project.errors }, status: :not_acceptable
   end
 end
