@@ -1,5 +1,5 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, only: [:show, :update, :destroy]
+  before_action :set_company, only: %i[show update destroy]
 
   def index
     render json: { companies: Company.all.slice(0, 10) }
@@ -27,11 +27,16 @@ class CompaniesController < ApplicationController
   end
 
   def destroy
-    if @company.destroy
-      render json: { status: :ok }
-    else
-      error_406
-    end
+    @company.destroy
+  end
+
+  def workers
+    ids = Role.where(company_id: params[:company_id]).pluck(:user_id).uniq
+    works = User.where(id: ids)
+    render json: {
+      workers: works,
+      count: works.length
+    }
   end
 
   private
@@ -50,6 +55,6 @@ class CompaniesController < ApplicationController
   end
 
   def error_406
-    render json: { errors: @company.errors }, status: 406
+    render json: { errors: @company.errors }, status: :not_acceptable
   end
 end

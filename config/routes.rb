@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :companies do
-    resources :roles
+    resources :roles, only: [:create, :destroy]
     resources :projects do
       resources :project_roles
       resources :sprints
@@ -10,6 +10,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/company_projects/:company_id' => 'projects#index'
+  get '/companies/:company_id/workers' => 'companies#workers'
 
 end
