@@ -1,8 +1,12 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, only: :update
+  before_action :set_company, only: [:show, :update, :destroy]
 
   def index
     render json: { companies: Company.all.slice(0, 10) }
+  end
+
+  def show
+    return_company
   end
 
   def create
@@ -10,7 +14,7 @@ class CompaniesController < ApplicationController
     if @company.save
       return_company
     else
-      render json: { errors: @company.errors }, status: 406
+      error_406
     end
   end
 
@@ -18,7 +22,15 @@ class CompaniesController < ApplicationController
     if @company.update(company_params)
       return_company
     else
-      render json: { errors: @company.errors }, status: 406
+      error_406
+    end
+  end
+
+  def destroy
+    if @company.destroy
+      render json: { status: :ok }
+    else
+      error_406
     end
   end
 
@@ -35,5 +47,9 @@ class CompaniesController < ApplicationController
 
   def return_company
     render json: { company: @company }
+  end
+
+  def error_406
+    render json: { errors: @company.errors }, status: 406
   end
 end
