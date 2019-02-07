@@ -3,10 +3,9 @@ Rails.application.routes.draw do
 
   resources :companies do
     resources :roles
-
     resources :projects do
       resources :project_roles
-      resources :sprint
+      resources :sprints
       resources :tasks
     end
   end
