@@ -10,6 +10,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/companies/:company_id/workers' => 'companies#workers'
+  get '/companies/:company_id/employees' => 'companies#employees_list'
 
 end
