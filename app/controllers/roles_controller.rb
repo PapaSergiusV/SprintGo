@@ -4,7 +4,7 @@ class RolesController < ApplicationController
     if @role.save
       render json: { role: @role.name }
     else
-      render json: { errors: @role.errors }, status: :not_acceptable
+      render json: { errors: @role.errors }, status: :bad_request
     end
   end
 

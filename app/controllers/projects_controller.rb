@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
     if @project.save
       return_project
     else
-      error_406
+      error_400
     end
   end
 
@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
     if @project.update(project_params)
       return_project
     else
-      error_406
+      error_400
     end
   end
 
@@ -46,7 +46,7 @@ class ProjectsController < ApplicationController
     render json: { project: @project }
   end
 
-  def error_406
-    render json: { errors: @project.errors }, status: :not_acceptable
+  def error_400
+    render json: { errors: @project.errors }, status: :bad_request
   end
 end
