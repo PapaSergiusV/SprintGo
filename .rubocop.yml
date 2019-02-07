@@ -1,0 +1,58 @@
+Rails:
+  Enabled: true
+
+Documentation:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'Rakefile'
+    - 'Gemfile'
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'test/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'node_modules/**/*'
+
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - development
+    - test
+    - staging
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+ClassAndModuleChildren:
+  Enabled: false
+
+Style/StructInheritance:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Metrics/LineLength:
+  Max: 80
+  IgnoredPatterns: ['\A#']
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/ClassLength:
+  CountComments: false
+  Max: 200
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 25
+
+Metrics/ParameterLists:
+  Max: 6
