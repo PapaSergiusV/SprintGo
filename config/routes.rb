@@ -10,4 +10,6 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/company_projects/:company_id' => 'projects#index'
+
 end
