@@ -14,7 +14,7 @@ class CompaniesController < ApplicationController
     if @company.save
       return_company
     else
-      error_406
+      error_400
     end
   end
 
@@ -22,7 +22,7 @@ class CompaniesController < ApplicationController
     if @company.update(company_params)
       return_company
     else
-      error_406
+      error_400
     end
   end
 
@@ -30,12 +30,20 @@ class CompaniesController < ApplicationController
     @company.destroy
   end
 
-  def workers
-    ids = Role.where(company_id: params[:company_id]).pluck(:user_id).uniq
-    works = User.where(id: ids)
+  # Return worker list of company
+  def employees_list
+    roles = Role.where(company_id: params[:company_id])
+    workers = []
+    User.where(id: roles.pluck(:user_id).uniq).each do |w|
+      workers.push(
+        id: w.id,
+        email: w.email,
+        roles: roles.where(user_id: w.id).pluck(:name)
+      )
+    end
     render json: {
-      workers: works,
-      count: works.length
+      workers: workers,
+      count: workers.length
     }
   end
 
@@ -54,7 +62,7 @@ class CompaniesController < ApplicationController
     render json: { company: @company }
   end
 
-  def error_406
-    render json: { errors: @company.errors }, status: :not_acceptable
+  def error_400
+    render json: { errors: @company.errors }, status: :bad_request
   end
 end
