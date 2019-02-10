@@ -13,6 +13,25 @@ class RolesController < ApplicationController
     @role.destroy
   end
 
+  def companies_list
+    ids = Role.where(user_id: params[:user_id])
+              .pluck(:company_id).uniq
+    companies = []
+    Company.where(id: ids).each do |c|
+      companies.push(
+        id: c.id,
+        name: c.name,
+        logo: c.logo,
+        about: c.about,
+        address: c.address,
+        phone: c.phone,
+        created: c.created_at,
+        workers: company_employee_list(c.id)
+      )
+    end
+    render json: { companies: companies }
+  end
+
   private
 
   def role_params

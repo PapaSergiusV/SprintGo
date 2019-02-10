@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   end
 
   get '/companies/:company_id/employees' => 'companies#employees_list'
+  get '/roles/companies_list/:user_id' => 'roles#companies_list'
 
 end
