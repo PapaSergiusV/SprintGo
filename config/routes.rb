@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
-
+  
+  resources :items
   resources :companies do
     resources :roles, only: [:create, :destroy]
     resources :projects do
@@ -11,5 +11,9 @@ Rails.application.routes.draw do
   end
 
   get '/companies/:company_id/employees' => 'companies#employees_list'
+  get '/roles/companies_list/:user_id' => 'roles#companies_list'
+
+  post 'authenticate' => 'authentication#authenticate'
+  post 'signup' => 'authentication#signup'
 
 end

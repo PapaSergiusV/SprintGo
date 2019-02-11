@@ -32,18 +32,8 @@ class CompaniesController < ApplicationController
 
   # Return worker list of company
   def employees_list
-    roles = Role.where(company_id: params[:company_id])
-    workers = []
-    User.where(id: roles.pluck(:user_id).uniq).each do |w|
-      workers.push(
-        id: w.id,
-        email: w.email,
-        roles: roles.where(user_id: w.id).pluck(:name)
-      )
-    end
     render json: {
-      workers: workers,
-      count: workers.length
+      workers: company_employee_list(params[:company_id])
     }
   end
 
