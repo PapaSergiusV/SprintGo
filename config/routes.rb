@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :items
   resources :companies do
     resources :roles, only: [:create, :destroy]
     resources :projects do
@@ -11,5 +12,8 @@ Rails.application.routes.draw do
 
   get '/companies/:company_id/employees' => 'companies#employees_list'
   get '/roles/companies_list/:user_id' => 'roles#companies_list'
+
+  post 'authenticate' => 'authentication#authenticate'
+  post 'signup' => 'authentication#signup'
 
 end
