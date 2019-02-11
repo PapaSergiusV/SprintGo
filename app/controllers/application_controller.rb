@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::API
+  before_action :authenticate_request
+  attr_reader :current_user
+
   # Return worker list of company
   def company_employee_list(company_id)
     roles = Role.where(company_id: company_id)
@@ -12,4 +15,12 @@ class ApplicationController < ActionController::API
     end
     workers
   end
+
+  private
+
+  def authenticate_request
+    @current_user = AuthorizeApiRequest.call(request.headers).result
+    render json: { error: 'Not Authorized' }, status: 401 unless @current_user
+  end
+
 end
