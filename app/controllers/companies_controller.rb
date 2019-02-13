@@ -32,7 +32,7 @@ class CompaniesController < ApplicationController
   end
 
   def destroy
-    @company.destroy
+    render json: { ok: true } if @company.destroy
   end
 
   # Return worker list of company
