@@ -10,8 +10,13 @@ class CompaniesController < ApplicationController
   end
 
   def create
+    logger.info "---#{params}---"
     @company = Company.new(company_params)
     if @company.save
+      role = Role.new(name: 'Owner',
+                      user_id: params[:user_id],
+                      company_id: @company.id)
+      role.save
       return_company
     else
       error_400
@@ -27,7 +32,7 @@ class CompaniesController < ApplicationController
   end
 
   def destroy
-    @company.destroy
+    render json: { ok: true } if @company.destroy
   end
 
   # Return worker list of company
