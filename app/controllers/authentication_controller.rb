@@ -10,7 +10,8 @@ class AuthenticationController < ApplicationController
         first_name: command.user_data.first_name,
         last_name: command.user_data.last_name,
         email: command.user_data.email,
-        about: command.user_data.about
+        about: command.user_data.about,
+        roles: user_roles(command.user_data)
       }
     else
       render json: { error: command.errors }, status: :unauthorized
@@ -18,4 +19,18 @@ class AuthenticationController < ApplicationController
   end
 
   def signup; end
+
+  private
+
+  def user_roles(user)
+    roles = []
+    user.roles.each do |role|
+      roles.push(
+        id: role.id,
+        name: role.name,
+        company: Company.find(role.company_id).name
+      )
+    end
+    roles
+  end
 end
