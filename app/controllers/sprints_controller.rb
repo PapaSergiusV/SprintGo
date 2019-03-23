@@ -7,7 +7,7 @@ class SprintsController < ApplicationController
   end
 
   def show
-    return_sprint
+    render json: { tasks: Task.where(sprint_id: params[:id]) }
   end
 
   def create
