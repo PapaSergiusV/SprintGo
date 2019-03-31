@@ -10,7 +10,7 @@ class ApplicationController < ActionController::API
       workers.push(
         id: w.id,
         email: w.email,
-        roles: roles.where(user_id: w.id).pluck(:name)
+        roles: roles.where(user_id: w.id).select(:id, :name)
       )
     end
     workers

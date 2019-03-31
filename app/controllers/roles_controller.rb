@@ -11,6 +11,7 @@ class RolesController < ApplicationController
   def destroy
     @role = Role.find(params[:id])
     @role.destroy
+    render json: {}, status: :ok
   end
 
   def companies_list
