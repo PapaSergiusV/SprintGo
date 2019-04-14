@@ -4,4 +4,13 @@ class Project < ApplicationRecord
   has_many :sprints, dependent: :destroy
   has_many :tasks, dependent: :destroy
   validates :name, presence: true
+
+  def as_json(*)
+    super(
+      only: %i[id name about company_id],
+      include: [
+        sprints: { only: %i[id name period] }
+      ]
+    )
+  end
 end
