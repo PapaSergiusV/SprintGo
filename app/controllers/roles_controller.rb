@@ -27,6 +27,7 @@ class RolesController < ApplicationController
         address: c.address,
         phone: c.phone,
         created: c.created_at,
+        projects: c.projects,
         workers: company_employee_list(c.id)
       )
     end
