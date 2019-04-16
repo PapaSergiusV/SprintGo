@@ -29,12 +29,13 @@ class SprintsController < ApplicationController
 
   def destroy
     @sprint.destroy
+    render json: {}, status: :ok
   end
 
   private
 
   def sprint_params
-    params.permit(:name, :period, :project_id)
+    params.permit(:name, :project_id).merge(deadline: set_date)
   end
 
   def set_sprint
@@ -47,5 +48,10 @@ class SprintsController < ApplicationController
 
   def error_400
     render json: { errors: @sprint.errors }, status: :bad_request
+  end
+
+  def set_date
+    date = params[:deadline].split('.')
+    Time.new(date[2], date[1], date[0]).in_time_zone
   end
 end
