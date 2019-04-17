@@ -8,9 +8,7 @@ class Project < ApplicationRecord
   def as_json(*)
     super(
       only: %i[id name about company_id],
-      include: [
-        sprints: { only: %i[id name period] }
-      ]
+      include: :sprints
     )
   end
 end
