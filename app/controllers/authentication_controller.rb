@@ -18,7 +18,17 @@ class AuthenticationController < ApplicationController
     end
   end
 
-  def signup; end
+  def signup
+    @us = User.new(first_name: params[:first_name],
+                   last_name: params[:last_name],
+                   password: params[:password],
+                   email: params[:email])
+    if @us.save
+      render json: {}, status: :ok
+    else
+      render json: { errors: @us.errors }, status: :bad_request
+    end
+  end
 
   private
 
